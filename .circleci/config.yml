@@ -21,10 +21,10 @@ jobs:
           MYSQL_DATABASE: myapp_test
           MYSQL_USER: root
     environment:
-        BUNDLE_JOBS: "3"
-        BUNDLE_RETRY: "3"
-        APP_DATABASE_HOST: "127.0.0.1"
-        RAILS_ENV: test
+      BUNDLE_JOBS: '3'
+      BUNDLE_RETRY: '3'
+      APP_DATABASE_HOST: '127.0.0.1'
+      RAILS_ENV: test
     working_directory: ~/my-docker-test-2/back
     steps:
       - checkout:
@@ -35,13 +35,14 @@ jobs:
           command: bundle exec rails db:migrate
       - run:
           name: test
-          command: bundle exec rake test 
+          command: bundle exec rake test
 
 workflows:
-  versions: 2
+  version: 2
   build_and_test:
     jobs:
       - build
       - test:
           requires:
-            -build
+            - build
+
