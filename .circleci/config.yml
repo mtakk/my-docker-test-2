@@ -11,6 +11,11 @@ jobs:
     steps:
       - checkout:
           path: ~/my-docker-test-2
+      - run:
+          name: update bundler
+          command: |
+            gem update --system
+            gem install bundler
       - ruby/install-deps
   test:
     docker:
