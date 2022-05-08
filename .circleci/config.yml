@@ -20,7 +20,7 @@ jobs:
   test:
     docker:
       - image: cimg/ruby:3.1.2
-      - image: cimg/mysql
+      - image: cimg/mysql:8.0
         environment:
           MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: myapp_test
