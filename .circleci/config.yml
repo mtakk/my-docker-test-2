@@ -62,15 +62,15 @@ jobs:
           name: build docker image
           command: |
             export DOCKER_CLI_EXPERIMENTAL=enabled
-            docker context create multi-arch-build
-            docker buildx create --use multi-arch-build --platform linux/amd64
-            docker buildx build . --push --platform linux/amd64 -t takuya/my-docker-test-2-mtakk:latest
+            sudo docker context create multi-arch-build
+            sudo docker buildx create --use multi-arch-build --platform linux/amd64
+            sudo docker buildx build . --push --platform linux/amd64 -t takuya/my-docker-test-2-mtakk:latest
       - run:
           name: docker images
-          command: docker images
+          command: sudo docker images
       - run:
           name: push docker image
-          command: docker push registry.heroku.com/my-docker-test-2-mtakk/web
+          command: sudo docker push registry.heroku.com/my-docker-test-2-mtakk/web
       - run:
           name: release docker image
           command: heroku container:release web -a $HEROKU_APP_NAME
