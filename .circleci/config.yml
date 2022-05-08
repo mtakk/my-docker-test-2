@@ -59,8 +59,8 @@ jobs:
           name: heroku login
           command: heroku container:login
       - run:
-          name: search dir
-          command: ls -l
+          name: search buildx
+          command: docker buildx version
       - run:
           name: build docker image
           command: DOCKER_BUILDKIT=1 docker buildx build . --platform linux/amd64 -t takuya/my-docker-test-2-mtakk:latest
