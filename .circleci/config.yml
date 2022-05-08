@@ -53,7 +53,7 @@ jobs:
       - checkout:
           path: ~/my-docker-test-2
       - setup_remote_docker:
-          version: 20.10.13
+          version: 20.10.14
       - heroku/install
       - run:
           name: heroku login
