@@ -15,9 +15,6 @@ jobs:
           name: bundler install
           command: gem install bundler -v 2.3.7
       - run:
-          name: install dependencies
-          command: gem install bundler
-      - run:
           name: bundle install
           command: bundle install
   test:
@@ -31,7 +28,6 @@ jobs:
     environment:
       BUNDLE_JOBS: '3'
       BUNDLE_RETRY: '3'
-      BUNDLER_VERSION: 2.3.7
       APP_DATABASE_HOST: '127.0.0.1'
       RAILS_ENV: test
     working_directory: ~/my-docker-test-2/back
