@@ -49,6 +49,8 @@ jobs:
   deploy:
     docker:
       - image: cimg/ruby:3.1.2
+    environment:
+      DOCKER_BUILDKIT: 1
     steps:
       - checkout:
           path: ~/my-docker-test-2
@@ -62,8 +64,14 @@ jobs:
           name: build docker image
           command: docker buildx build . --platform linux/amd64 -t myuser/$HEROKU_APP_NAME:latest
       - run:
+          name: docker images
+          command: docker images
+      - run:
           name: tag docker image
           command: docker tag myuser/$HEROKU_APP_NAME registry.heroku.com/$HEROKU_APP_NAME/web
+      - run:
+          name: docker images
+          command: docker images
       - run:
           name: push docker image
           command: docker push registry.heroku.com/$HEROKU_APP_NAME/web
