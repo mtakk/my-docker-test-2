@@ -59,6 +59,9 @@ jobs:
           name: heroku login
           command: heroku container:login
       - run:
+          name: search dir
+          command: ls -l
+      - run:
           name: build docker image
           command: DOCKER_BUILDKIT=1 docker buildx build . --platform linux/amd64 -t myuser/$HEROKU_APP_NAME:latest
       - run:
