@@ -63,22 +63,22 @@ jobs:
           command: ls -l
       - run:
           name: build docker image
-          command: DOCKER_BUILDKIT=1 docker buildx build . --platform linux/amd64 -t myuser/$HEROKU_APP_NAME:latest
+          command: DOCKER_BUILDKIT=1 docker buildx build . --platform linux/amd64 -t takuya/my-docker-test-2-mtakk:latest
       - run:
           name: docker images
           command: docker images
       - run:
           name: tag docker image
-          command: docker tag myuser/$HEROKU_APP_NAME registry.heroku.com/$HEROKU_APP_NAME/web
+          command: docker tag takuya/my-docker-test-2-mtakk registry.heroku.com/my-docker-test-2-mtakk/web
       - run:
           name: docker images
           command: docker images
       - run:
           name: push docker image
-          command: docker push registry.heroku.com/$HEROKU_APP_NAME/web
+          command: docker push registry.heroku.com/my-docker-test-2-mtakk/web
       - run:
           name: release docker image
-          command: heroku container:release web -a $HEROKU_APP_NAME
+          command: heroku container:release web -a my-docker-test-2-mtakk
       - run:
           name: database setup
           command: heroku run bundle exec rake db:migrate RAILS_ENV=production -a $HEROKU_APP_NAME
