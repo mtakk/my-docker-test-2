@@ -60,13 +60,11 @@ jobs:
           command: heroku container:login
       - run:
           name: build docker image
-          command: docker buildx build . --push --platform linux/amd64 -t takuya/my-docker-test-2-mtakk:latest
-      - run:
-          name: docker images
-          command: docker images
-      - run:
-          name: tag docker image
-          command: docker tag takuya/my-docker-test-2-mtakk registry.heroku.com/my-docker-test-2-mtakk/web
+          command: |
+            export DOCKER_CLI_EXPERIMENTAL=enabled
+            docker context create multi-arch-build
+            docker buildx create --use multi-arch-build --platform linux/amd64
+            docker buildx build . --push --platform linux/amd64 -t takuya/my-docker-test-2-mtakk:latest
       - run:
           name: docker images
           command: docker images
