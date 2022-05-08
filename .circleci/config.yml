@@ -12,11 +12,14 @@ jobs:
       - checkout:
           path: ~/my-docker-test-2
       - run:
-          name: Bundler install
-          command: |
-            gem update --system
-            gem install bundler -v 1.17.2
-      - ruby/install-deps
+          name: bundler install
+          command: gem install bundler -v 2.3.7
+      - run:
+          name: install dependencies
+          command: gem install bundler
+      - run:
+          name: bundle install
+          command: bundle install
   test:
     docker:
       - image: cimg/ruby:3.1.2
@@ -28,7 +31,7 @@ jobs:
     environment:
       BUNDLE_JOBS: '3'
       BUNDLE_RETRY: '3'
-      APP_BUNDLER_VERSION: 1.17.2
+      BUNDLER_VERSION: 2.3.7
       APP_DATABASE_HOST: '127.0.0.1'
       RAILS_ENV: test
     working_directory: ~/my-docker-test-2/back
