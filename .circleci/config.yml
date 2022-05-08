@@ -33,7 +33,12 @@ jobs:
     steps:
       - checkout:
           path: ~/my-docker-test-2
-      - ruby/install-deps
+      - run:
+          name: bundler install
+          command: gem install bundler -v 2.3.7
+      - run:
+          name: bundle install
+          command: bundle install
       - run:
           name: Database setup
           command: bundle exec rails db:migrate
