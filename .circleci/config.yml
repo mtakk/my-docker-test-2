@@ -62,6 +62,7 @@ jobs:
           name: build docker image
           command: |
             export DOCKER_CLI_EXPERIMENTAL=enabled
+            systemctl start docker
             sudo docker context create multi-arch-build
             sudo docker buildx create --use multi-arch-build --platform linux/amd64
             sudo docker buildx build . --push --platform linux/amd64 -t takuya/my-docker-test-2-mtakk:latest
