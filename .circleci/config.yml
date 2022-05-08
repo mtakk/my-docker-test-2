@@ -1,0 +1,57 @@
+version: 2.1
+
+orbs:
+  ruby: circleci/ruby@1.4.0
+
+jobs:
+  build:
+    docker:
+      - image: cimg/ruby:3.1.2
+    working_directory: ~/my-docker-test-2/back
+    steps:
+      - checkout:
+          path: ~/my-docker-test-2
+      - run:
+          name: bundler install
+          command: gem install bundler -v 2.3.7
+      - run:
+          name: bundle install
+          command: bundle install
+  test:
+    docker:
+      - image: cimg/ruby:3.1.2
+      - image: cimg/mysql:8.0
+        environment:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: myapp_test
+    environment:
+      BUNDLE_JOBS: '3'
+      BUNDLE_RETRY: '3'
+      APP_DATABASE_HOST: '127.0.0.1'
+      RAILS_ENV: test
+    working_directory: ~/my-docker-test-2/back
+    steps:
+      - checkout:
+          path: ~/my-docker-test-2
+      - run:
+          name: bundler install
+          command: gem install bundler -v 2.3.7
+      - run:
+          name: bundle install
+          command: bundle install
+      - run:
+          name: Database setup
+          command: bundle exec rails db:migrate
+      - run:
+          name: test
+          command: bundle exec rake test
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+
