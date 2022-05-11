@@ -54,21 +54,32 @@ jobs:
           path: ~/my-docker-test-2
       - setup_remote_docker:
           version: 20.10.14
+          docker_layer_caching: true
+      - run:
+          name: Docker クライアントのインストール
+          command: apk add docker-cli
       - heroku/install
       - run:
           name: heroku login
           command: heroku container:login
       - run:
-          name: build docker image
-          command: |
-            export DOCKER_CLI_EXPERIMENTAL=enabled
-            systemctl start docker
-            sudo docker context create multi-arch-build
-            sudo docker buildx create --use multi-arch-build --platform linux/amd64
-            sudo docker buildx build . --push --platform linux/amd64 -t takuya/my-docker-test-2-mtakk:latest
+          name: export
+          command: export DOCKER_CLI_EXPERIMENTAL=enabled
       - run:
           name: docker images
           command: sudo docker images
+      - run:
+          name: build docker image
+          command: docker buildx build . --platform linux/amd64 -t takuya/my-docker-test-2-mtakk:latest
+      - run:
+          name: docker images
+          command: sudo docker images
+      - run:
+          name: docker tag
+          command: docker tag takuya/my-docker-test-2-mtakk registry.heroku.com/my-docker-test-2-mtakk/web
+      - run:
+          name: docker push
+          command: docker push registry.heroku.com/my-docker-test-2-mtakk/web
       - run:
           name: push docker image
           command: sudo docker push registry.heroku.com/my-docker-test-2-mtakk/web
