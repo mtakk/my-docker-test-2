@@ -54,6 +54,8 @@ jobs:
       - checkout:
           path: ~/my-docker-test-2
       - heroku/install
+      - setup_remote_docker:
+          version: 20.10.14
       - run:
           name: heroku login
           command: heroku container:login
@@ -84,6 +86,8 @@ jobs:
       - run:
           name: database setup
           command: heroku run bundle exec rake db:migrate RAILS_ENV=production -a $HEROKU_APP_NAME
+
+          git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git main
 
 workflows:
   version: 2
