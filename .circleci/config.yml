@@ -63,6 +63,12 @@ jobs:
           name: export
           command: export DOCKER_CLI_EXPERIMENTAL=enabled
       - run:
+          name: chown
+          command: sudo chown root /usr/bin/docker
+      - run:
+          name: chmod
+          command: sudo chmod u+s /usr/bin/docker
+      - run:
           name: docker images
           command: sudo docker images
       - run:
