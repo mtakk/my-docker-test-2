@@ -55,9 +55,6 @@ jobs:
       - setup_remote_docker:
           version: 20.10.14
           docker_layer_caching: true
-      - run:
-          name: Docker クライアントのインストール
-          command: apk add docker-cli
       - heroku/install
       - run:
           name: heroku login
