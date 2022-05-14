@@ -60,32 +60,8 @@ jobs:
           name: heroku login
           command: heroku container:login
       - run:
-          name: export
-          command: export DOCKER_CLI_EXPERIMENTAL=enabled
-      - run:
-          name: chown
-          command: sudo chown root /usr/bin/docker
-      - run:
-          name: chmod
-          command: sudo chmod u+s /usr/bin/docker
-      - run:
-          name: docker images
-          command: sudo docker images
-      - run:
-          name: build docker image
-          command: docker buildx build . --platform linux/amd64 -t takuya/my-docker-test-2-mtakk:latest
-      - run:
-          name: docker images
-          command: sudo docker images
-      - run:
-          name: docker tag
-          command: docker tag takuya/my-docker-test-2-mtakk registry.heroku.com/my-docker-test-2-mtakk/web
-      - run:
-          name: docker push
-          command: docker push registry.heroku.com/my-docker-test-2-mtakk/web
-      - run:
           name: push docker image
-          command: sudo docker push registry.heroku.com/my-docker-test-2-mtakk/web
+          command: heroku container:push web -a $HEROKU_APP_NAME
       - run:
           name: release docker image
           command: heroku container:release web -a $HEROKU_APP_NAME
@@ -106,5 +82,5 @@ workflows:
             - test
           filters:
             branches:
-              only: main
+              only: circleci
 
