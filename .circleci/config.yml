@@ -67,7 +67,7 @@ jobs:
           command: heroku container:release web -a $HEROKU_APP_NAME
       - run:
           name: assets precompile
-          command: heroku run bundle exec rails assets:precompile
+          command: heroku run bundle exec rails assets:precompile -a $HEROKU_APP_NAME
       - run:
           name: database setup
           command: heroku run bundle exec rake db:migrate RAILS_ENV=production -a $HEROKU_APP_NAME
